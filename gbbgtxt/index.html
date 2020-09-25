@@ -1,0 +1,98 @@
+<!doctype>
+<html>
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/triangle.css">
+  <link rel="stylesheet" href="./css/main.css">
+  
+  <title>GBBGTxT | JamesPark.ninja</title>  
+  <meta name="description" content= "Create a background filled with tileset text" />
+  <meta name="robots" content= "index, follow">
+  
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+  <script type="text/javascript" charset="UTF-8" src="./js/main.js"></script>
+</head>
+
+<body>
+  <div class="tri fullwidth">
+    <form id="gbbgtxt" name="gbbgtxt">
+      <div class="tri">
+        <div class="ang le-full">
+          <h1>GB<span>BG</span>TxT</h1> <img src="./images/gb.png" class="gb_img" /> <script type='text/javascript' src='https://ko-fi.com/widgets/widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Help me make more tools!', '#29abe0', 'A217453J');kofiwidget2.draw();</script> </div>
+        <div class="ang le-full md-half">
+          <div class="gbbgtxt-c-options-panel">
+            <div class="tri">
+              <div class="ang le-full">
+
+                <p class="text_small">Creates a background full of tileset text for <a style="color:red; font-weight:bold;" target="_blank" href="https://www.gbstudio.dev/">GB Studio</a> projects, while sticking to 8x8 and max image sizes (based on <a href="http://maxbgcalc.jamespark.ninja/" target="_blank">MaxBGCalc</a> calculations)</p>
+                
+              </div>
+              <div class="ang le-full">
+                <hr>
+              </div>
+              <div class="ang le-full md-half">
+                
+                <span class="text_small">Orientation:</span>              
+                <select name="gbbgtxt-a-orientation">
+                  <option value="portrait" selected>Portrait</option>
+                  <option value="landscape">Landscape</option>
+                </select>
+                
+                <label for="gbbgtxt-a-padding-x">Padding (X, Y): </label>
+                <input name="gbbgtxt-a-padding-x" type="number" value="2" style="max-width:50px; display:inline-block;" />
+                <input name="gbbgtxt-a-padding-y" type="number" value="2" style="max-width:50px; display:inline-block;" />
+                <label for="gbbgtxt-a-lineheight">Line Height: </label>
+                <input name="gbbgtxt-a-lineheight" type="number" value="0" style="max-width:50px;" />
+                
+                <div style="padding:.5em 0;">
+                  <p><strong>Current Tileset:</strong></p>
+                  <img class="switch_tileset" src="./images/tileset.png" />
+                  <div class="tileset_form"><input type="file" name="tileset_preview" /></div>
+                </div>               
+
+                <a href="#" class="gbbgtxt-a-generate">Generate Image</a>
+              </div>
+              <div class="ang le-full md-half">
+                <span class="text_small">Text Content:</span>
+                <textarea name="gbbgtxt-a-text-entry" style="min-height:400px;"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ang le-full md-half">
+          <br>
+          <div class="tri">
+            <div class="ang le-full md-half gbbgtxt-c-preview-container" style="padding:.5em;">
+              <div class="tri">
+                <div class="ang le-full md-half">
+                  <strong class="title" style="display:block;">Preview</strong>
+                </div>
+                <div class="ang le-full md-half">
+                  <small style="font-size:.28em; color:red;">Red: Visible Area</small><br>
+                  <small style="font-size:.28em; color:cyan;">Blue: Maximum Area</small>
+                </div>
+              </div>
+              <div class="gbbgtxt-c-overlay" style="width:160px; height:144px;"><canvas id="gbbgtxt-c-preview"></canvas></div>
+            </div>
+            <div class="ang le-full md-half gbbgtxt-c-output-container" style="padding:.5em;">
+              <strong class="title">Output</strong>
+              <div class="gbbgtxt-c-output" style="display:none;"><img /></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>
