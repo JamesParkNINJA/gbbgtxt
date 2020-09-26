@@ -102,6 +102,7 @@ jQuery(document).ready( function($) {
   
   function updatePreviewCanvas(input, e) {
     var content = input.val(),
+        content = content.replace(/\r\n|\r|\n/g, ' \r\n'),
         arr     = new Array(),
         max_width = 160,
         max_height = 2040,
@@ -112,6 +113,8 @@ jQuery(document).ready( function($) {
         tiles = {},
         canvasY = 0,
         canvasX = 0;
+    
+    input.val(content);
         
     if (bgt_orientation == 'landscape') {
       max_height = 160;
@@ -135,7 +138,7 @@ jQuery(document).ready( function($) {
             line++; text[line] = ' ';
           }
           
-          word = words[w].replace(/\r|\n/g, ''); 
+          word = words[w].replace(/\r\n|\r|\n/g, ''); 
         }
         
         var tempCount = lineCount -  words[w].length;
