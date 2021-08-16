@@ -1,6 +1,6 @@
 /* -------- GBBGTxT -------- */
 /*  gbbgtxt.jamespark.ninja  */
-/* --- James Park : 2020 --- */
+/* --- James Park : 2021 --- */
 
 jQuery(document).ready( function($) {
   
@@ -134,8 +134,10 @@ jQuery(document).ready( function($) {
         if (nl) { 
           var nlc = words[w].split(/\r\n|\r|\n/).length; 
           
-          for (var nli = 0; nli < (nlc - 1); nli++) {
-            line++; text[line] = ' ';
+          if (bgt_linehgt > 0) {
+              for (var nli = 0; nli < (nlc - 1); nli++) {
+                line++; text[line] = ' ';
+              }
           }
           
           word = words[w].replace(/\r\n|\r|\n/g, ''); 
