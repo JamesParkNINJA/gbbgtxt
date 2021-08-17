@@ -114,7 +114,7 @@ jQuery(document).ready( function($) {
         canvasY = 0,
         canvasX = 0;
     
-    input.val(content);
+    //input.val(content);
         
     if (bgt_orientation == 'landscape') {
       max_height = 160;
@@ -126,10 +126,16 @@ jQuery(document).ready( function($) {
         longest = 0;
     
     for (var w=0; w<words.length; w++) {
-      lineCount += words[w].length; lineCount++;
+      lineCount += words[w].length; //lineCount++;
       var nl = match = /\r|\n/.exec(words[w]),
           word = words[w];
+        
+        if (word.length >= max_tiles_x) {
+            
+        }
       
+      console.log(lineCount + ' - ' + max_tiles_x)
+        
       if (nl || (lineCount > max_tiles_x)) {
         if (nl) { 
           var nlc = words[w].split(/\r\n|\r|\n/).length; 
@@ -160,10 +166,10 @@ jQuery(document).ready( function($) {
       } else {
         text[line] += word;
       }
-      if (w != (words.length - 1)) { text[line] += ' '; }
+      //if (w != (words.length - 1)) { text[line] += ' '; }
     }
     
-    console.log(longest);
+    //console.log(longest);
     
     for (var key in text) {
       var line = text[key].trim();
@@ -212,6 +218,8 @@ jQuery(document).ready( function($) {
           minus = max_tiles_x - linec + (bgt_padding_X * 2),
           keynum = parseInt(key, 10),
           row = keynum + bgt_padding_Y;
+        
+        console.dir([key, bgt_padding_X, max_tiles_x, linec, minus, keynum, row]);
       
       for (var p = 0; p < bgt_padding_X; p++) {
         printText(row, p, 0);
