@@ -1,6 +1,6 @@
-/* -------- GBBGTxT -------- */
+/* ------ GBBGTxT v2 ------- */
 /*  gbbgtxt.jamespark.ninja  */
-/* --- James Park : 2021 --- */
+/* --- James Park : 2022 --- */
 
 jQuery(document).ready( function($) {
   
@@ -15,8 +15,9 @@ jQuery(document).ready( function($) {
   var bgt_padding_X = 2,
       bgt_padding_Y = 2,
       bgt_linehgt = 0,
+      autoline = false,
       bgt_orientation = 'portrait',
-      tileset = 'http://gbbgtxt.jamespark.ninja/images/tileset.png',
+      tileset = 'https://gb.jamespark.ninja/gbbgtxt/images/tileset.png',
       canvas = document.getElementById("gbbgtxt-c-preview"),
       context = canvas.getContext('2d'),
       img = new Image();
@@ -106,6 +107,7 @@ jQuery(document).ready( function($) {
         arr     = new Array(),
         max_width = 160,
         max_height = 2040,
+        sentences = content.split('\r\n'),
         words = content.split(' '),
         lineCount = 0,
         line = 0,
@@ -113,63 +115,64 @@ jQuery(document).ready( function($) {
         tiles = {},
         canvasY = 0,
         canvasX = 0;
-    
-    //input.val(content);
         
     if (bgt_orientation == 'landscape') {
       max_height = 160;
       max_width = 2040;
     }   
+
+    function sliceText(str, index) {
+      const result = str.match(new RegExp('.{1,' + index + '}', 'g'));
+      return result;
+    }
+
+    function sliceTextByWord(str, index) {
+      const lineMaxLen = index;
+      const wsLookup = 5; // Look backwards n characters for a whitespace
+      const regex = new RegExp(String.raw`\s*(?:(\S{${lineMaxLen}})|([\s\S]{${lineMaxLen - wsLookup},${lineMaxLen}})(?!\S))`, 'g');
+      return str.match(regex, (_, x, y) => x ? `${x}-\n` : `${y}\n`);
+    }
     
     var max_tiles_x = tileCount(max_width) - (bgt_padding_X * 2),
         max_tiles_y = tileCount(max_height) - (bgt_padding_Y * 2),
+        max_x_break = max_tiles_x - 1,
         longest = 0;
-    
-    for (var w=0; w<words.length; w++) {
-      lineCount += words[w].length; //lineCount++;
-      var nl = match = /\r|\n/.exec(words[w]),
-          word = words[w];
-        
-        if (word.length >= max_tiles_x) {
-            
-        }
-      
-      console.log(lineCount + ' - ' + max_tiles_x)
-        
-      if (nl || (lineCount > max_tiles_x)) {
-        if (nl) { 
-          var nlc = words[w].split(/\r\n|\r|\n/).length; 
+
+    for (var s=0; s<sentences.length; s++) {
+      if (sentences[s].length > max_tiles_x) {
           
-          if (bgt_linehgt > 0) {
-              for (var nli = 0; nli < (nlc - 1); nli++) {
-                line++; text[line] = ' ';
+          if (!autoline) {
+              var splitline = sliceText(sentences[s], max_x_break); 
+          } else {
+              var splitline = sliceTextByWord(sentences[s], max_x_break);
+          } 
+          for (sl=0; sl<splitline.length; sl++) {
+              if (!autoline && sl != (splitline.length-1)) { var dash = '-'; } else { var dash = ''; }
+              
+              text[line] = splitline[sl].trim()+dash;
+              if (sl != (splitline.length-1)) { 
+                  line++; 
+                  if (bgt_linehgt > 0) {
+                      for (lh=0; lh<bgt_linehgt; lh++) {
+                          text[line] = ' '; line++;
+                      }
+                  }
               }
           }
-          
-          word = words[w].replace(/\r\n|\r|\n/g, ''); 
-        }
-        
-        var tempCount = lineCount -  words[w].length;
-        
-        if (tempCount > longest) { longest = tempCount; }
-        
-        for (var lh = 0; lh < bgt_linehgt; lh++) {
-          line++; text[line] = ' ';
-        }
-        line++; lineCount = words[w].length; lineCount ++;
+
       } else {
-        if (lineCount > longest) { longest = lineCount; }
+        text[line] = sentences[s];
       }
+      line++;
       
-      if (text[line] == null) { 
-        text[line] = word; 
-      } else {
-        text[line] += word;
+      if (bgt_linehgt > 0) {
+          for (lh=0; lh<bgt_linehgt; lh++) {
+              text[line] = ' '; line++;
+          }
       }
-      //if (w != (words.length - 1)) { text[line] += ' '; }
     }
-    
-    //console.log(longest);
+
+    console.log(text);
     
     for (var key in text) {
       var line = text[key].trim();
@@ -218,8 +221,6 @@ jQuery(document).ready( function($) {
           minus = max_tiles_x - linec + (bgt_padding_X * 2),
           keynum = parseInt(key, 10),
           row = keynum + bgt_padding_Y;
-        
-        console.dir([key, bgt_padding_X, max_tiles_x, linec, minus, keynum, row]);
       
       for (var p = 0; p < bgt_padding_X; p++) {
         printText(row, p, 0);
@@ -342,6 +343,11 @@ jQuery(document).ready( function($) {
       $('.gbbgtxt-c-preview-container:not(.md-half)').addClass('md-half');
       $('.gbbgtxt-c-output-container:not(.md-half)').addClass('md-half');
     }
+  }); 
+  
+  $(document).on('change', '[name="gbbgtxt-a-autoline"]', function(e){
+    autoline = $('[name="gbbgtxt-a-autoline"]').is(':checked');
+    updatePreviewCanvas($('textarea[name="gbbgtxt-a-text-entry"]'), this);
   }); 
   
 });
